@@ -20,6 +20,17 @@ interface Ayah {
   translation: string;
 }
 
+interface AyahApiResponse {
+  id: number;
+  text_uthmani: string;
+}
+
+interface TranslationApiResponse {
+  translations: {
+    text: string;
+  }[];
+}
+
 export default function SurahDetailPage() {
   const { id } = useParams();
   const [surah, setSurah] = useState<Surah | null>(null);
@@ -46,10 +57,11 @@ export default function SurahDetailPage() {
 
         setSurah(surahResponse.data.chapter);
 
-        const combinedAyahs: Ayah[] = ayahResponse.data.verses.map((ayah: any, index: number) => ({
+        const combinedAyahs: Ayah[] = ayahResponse.data.verses.map((ayah: AyahApiResponse, index: number) => ({
           id: ayah.id,
           text_uthmani: ayah.text_uthmani.replace(/[^ء-ي\u064B-\u0652 ]/g, ''),
-          translation: translationResponse.data.translations[index]?.text.replace(/<sup.*?<\/sup>/g, '') || 'Translation not available',
+          translation:
+            translationResponse.data.translations[index]?.text.replace(/<sup.*?<\/sup>/g, '') || 'Translation not available',
         }));
 
         setAyahs(combinedAyahs);
@@ -100,9 +112,7 @@ export default function SurahDetailPage() {
                 {ayah.text_uthmani}
               </p>
               {/* Translation */}
-              <p className="text-lg text-gray-800 italic text-left">
-                {ayah.translation}
-              </p>
+              <p className="text-lg text-gray-800 italic text-left">{ayah.translation}</p>
               {/* Ayah Number */}
               <p className="text-lg text-teal-700 mt-4">Ayah {index + 1}</p>
             </div>
