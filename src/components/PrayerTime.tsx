@@ -2,10 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+// Define the shape of prayer times object
+type PrayerTimes = {
+  Fajr: string;
+  Sunrise: string;
+  Dhuhr: string;
+  Asr: string;
+  Maghrib: string;
+  Isha: string;
+};
+
 const PrayerTime = () => {
   const [city, setCity] = useState('Karachi');
   const [country] = useState('Pakistan');
-  const [prayerTimes, setPrayerTimes] = useState<any>(null);
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimes | null>(null); // Use defined type
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
