@@ -25,12 +25,6 @@ interface AyahApiResponse {
   text_uthmani: string;
 }
 
-interface TranslationApiResponse {
-  translations: {
-    text: string;
-  }[];
-}
-
 export default function SurahDetailPage() {
   const { id } = useParams();
   const [surah, setSurah] = useState<Surah | null>(null);
